@@ -18,7 +18,7 @@ int main() {
     vector<value_type> arr(N);
     value_type sum = 0;
     for (size_t i = 0; i < N; i++) {
-        value_type arg = static_cast<value_type>(2.0 * M_PI * i / N-1);
+        value_type arg = static_cast<value_type>(2.0 * M_PI * i / N);
         arr[i] = SIN_FUNC(arg);
         sum += arr[i];
     }
