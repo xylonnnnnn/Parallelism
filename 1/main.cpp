@@ -22,11 +22,15 @@ int main() {
         arr[i] = SIN_FUNC(arg);
         sum += arr[i];
     }
-
-    string type_name = (sizeof(value_type) == 4) ? "float" : "double";
-    int precision = (sizeof(value_type) == 4) ? 6 : 15;
-    
+    string type_name;
+    int precision;
+    if (sizeof(value_type) == 4) {
+        type_name = "float";
+        precision = 6;
+    } else {
+        type_name = "double";
+        precision = 15;
+    }
     cout << fixed << setprecision(precision) << "Сумма (" << type_name << "): " << sum << std::endl;
-
     return 0;
 }
