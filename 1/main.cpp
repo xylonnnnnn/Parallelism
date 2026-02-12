@@ -31,6 +31,6 @@ int main() {
         type_name = "double";
         precision = 15;
     }
-    cout << fixed << setprecision(precision) << "Сумма (" << type_name << "): " << sum << std::endl;
+    cout << fixed << setprecision(precision) << "Сумма (" << type_name << "): " << sum << endl;
     return 0;
 }
