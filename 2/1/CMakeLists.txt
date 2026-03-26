@@ -6,5 +6,5 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 find_package(OpenMP REQUIRED)
 
-add_executable(task1_matvec task1_matvec.c)
+add_executable(task1_matvec main.c)
 target_link_libraries(task1_matvec PRIVATE OpenMP::OpenMP_C m)
