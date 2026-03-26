@@ -1,0 +1,1 @@
+/opt/nvidia/hpc_sdk/Linux_x86_64/23.11/compilers/bin/nvc++ -fast -O3 -DNDEBUG CMakeFiles/task1_matvec.dir/src/task1_matrix_vector.cpp.o -o task1_matvec 
