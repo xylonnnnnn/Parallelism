@@ -1,0 +1,3 @@
+/home/r.smagulov/tasks/Parallelism/22/task3/build/CMakeFiles/task3_solver.dir
+/home/r.smagulov/tasks/Parallelism/22/task3/build/CMakeFiles/edit_cache.dir
+/home/r.smagulov/tasks/Parallelism/22/task3/build/CMakeFiles/rebuild_cache.dir
