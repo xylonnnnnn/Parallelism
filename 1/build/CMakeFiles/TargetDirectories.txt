@@ -1,0 +1,3 @@
+/home/r.smagulov/tasks/Parallelism/1/build/CMakeFiles/sine_sum.dir
+/home/r.smagulov/tasks/Parallelism/1/build/CMakeFiles/edit_cache.dir
+/home/r.smagulov/tasks/Parallelism/1/build/CMakeFiles/rebuild_cache.dir

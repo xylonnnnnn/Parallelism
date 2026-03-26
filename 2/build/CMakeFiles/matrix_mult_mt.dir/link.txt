@@ -1,0 +1,1 @@
+/opt/nvidia/hpc_sdk/Linux_x86_64/23.11/compilers/bin/nvc++ -fast -O3 -DNDEBUG -O3 -march=native CMakeFiles/matrix_mult_mt.dir/matrix_mult_mt.cpp.o -o matrix_mult_mt 
