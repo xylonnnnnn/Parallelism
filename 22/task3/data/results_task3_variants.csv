@@ -1,2 +1,0 @@
-n,threads,variant,repeats,eps,max_iters,tau,schedule,chunk,iterations,seconds,residual,linf_error,converged
-100000,1,1,1,1e-05,5000,1.9999600008e-05,static,0,5000,1.132957894,0.904856419572,0.904838322802,0

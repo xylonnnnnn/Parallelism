@@ -1,3 +1,0 @@
-/home/r.smagulov/tasks/Parallelism/22/task1/build/CMakeFiles/task1_matvec.dir
-/home/r.smagulov/tasks/Parallelism/22/task1/build/CMakeFiles/edit_cache.dir
-/home/r.smagulov/tasks/Parallelism/22/task1/build/CMakeFiles/rebuild_cache.dir

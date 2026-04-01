@@ -1,1 +1,0 @@
-/opt/nvidia/hpc_sdk/Linux_x86_64/23.11/compilers/bin/nvc++ -fast -O3 -DNDEBUG CMakeFiles/task2_integration.dir/src/task2_integration.cpp.o -o task2_integration 
