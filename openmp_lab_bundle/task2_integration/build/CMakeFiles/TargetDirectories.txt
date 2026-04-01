@@ -1,3 +1,0 @@
-/home/r.smagulov/tasks/Parallelism/openmp_lab_bundle/task2_integration/build/CMakeFiles/task2_integration.dir
-/home/r.smagulov/tasks/Parallelism/openmp_lab_bundle/task2_integration/build/CMakeFiles/edit_cache.dir
-/home/r.smagulov/tasks/Parallelism/openmp_lab_bundle/task2_integration/build/CMakeFiles/rebuild_cache.dir
