@@ -1,0 +1,3 @@
+variant,threads,time_sec,speedup,efficiency,iterations,residual
+parallel_for_each_loop,1,,,,,
+single_parallel_region,1,,,,,

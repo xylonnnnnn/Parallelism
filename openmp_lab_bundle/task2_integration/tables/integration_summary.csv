@@ -1,0 +1,9 @@
+threads,time_sec,speedup,efficiency,pi_estimate,abs_error
+1,,,,,
+2,,,,,
+4,,,,,
+7,,,,,
+8,,,,,
+16,,,,,
+20,,,,,
+40,,,,,
