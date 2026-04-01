@@ -1,1 +1,7 @@
 threads,variant,schedule,chunk,time_sec,iterations,residual
+8,single_parallel_region,static,0,0.000699997,10,0.000001200
+8,single_parallel_region,static,1,0.002157927,10,0.000001200
+8,single_parallel_region,dynamic,1,0.022670984,10,0.000001200
+8,single_parallel_region,dynamic,64,0.000769854,10,0.000001200
+8,single_parallel_region,guided,1,0.000997066,10,0.000001200
+8,single_parallel_region,guided,64,0.000516891,10,0.000001200

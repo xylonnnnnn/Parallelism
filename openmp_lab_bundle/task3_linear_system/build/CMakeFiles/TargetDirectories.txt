@@ -1,0 +1,3 @@
+/home/r.smagulov/tasks/Parallelism/openmp_lab_bundle/task3_linear_system/build/CMakeFiles/task3_linear_system.dir
+/home/r.smagulov/tasks/Parallelism/openmp_lab_bundle/task3_linear_system/build/CMakeFiles/edit_cache.dir
+/home/r.smagulov/tasks/Parallelism/openmp_lab_bundle/task3_linear_system/build/CMakeFiles/rebuild_cache.dir
