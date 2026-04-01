@@ -1,3 +1,0 @@
-/home/r.smagulov/tasks/Parallelism/openmp_lab_bundle/task1_matrix_vector/build/CMakeFiles/task1_matrix_vector.dir
-/home/r.smagulov/tasks/Parallelism/openmp_lab_bundle/task1_matrix_vector/build/CMakeFiles/edit_cache.dir
-/home/r.smagulov/tasks/Parallelism/openmp_lab_bundle/task1_matrix_vector/build/CMakeFiles/rebuild_cache.dir
