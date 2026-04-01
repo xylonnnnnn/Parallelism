@@ -1,1 +1,0 @@
-/opt/nvidia/hpc_sdk/Linux_x86_64/23.11/compilers/bin/nvc CMakeFiles/task1_matvec.dir/task1_matvec.c.o -o task1_matvec  -lm 
