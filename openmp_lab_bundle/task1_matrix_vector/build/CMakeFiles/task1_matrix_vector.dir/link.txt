@@ -1,0 +1,1 @@
+/opt/nvidia/hpc_sdk/Linux_x86_64/23.11/compilers/bin/nvc++ CMakeFiles/task1_matrix_vector.dir/src/main.cpp.o -o task1_matrix_vector 
