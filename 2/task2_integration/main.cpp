@@ -1,6 +1,4 @@
-
 #include <omp.h>
-
 #include <cmath>
 #include <filesystem>
 #include <fstream>
@@ -95,14 +93,6 @@ int main(int argc, char** argv) {
                 cfg.repeats = std::stoi(argv[++i]);
             } else if (arg == "--output" && i + 1 < argc) {
                 cfg.output_csv = argv[++i];
-            } else if (arg == "--help") {
-                std::cout
-                    << "OpenMP integration benchmark\n"
-                    << "Options:\n"
-                    << "  --nsteps N        Integration steps (default: 40000000)\n"
-                    << "  --repeats N       Repeats per configuration (default: 5)\n"
-                    << "  --output FILE     Summary CSV (default: tables/integration_summary.csv)\n";
-                return 0;
             } else {
                 throw std::runtime_error("Unknown argument: " + arg);
             }
