@@ -1,6 +1,4 @@
-
 #include <omp.h>
-
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -90,13 +88,6 @@ int main(int argc, char** argv) {
                 config.repeats = std::stoi(argv[++i]);
             } else if (arg == "--output" && i + 1 < argc) {
                 config.output_csv = argv[++i];
-            } else if (arg == "--help") {
-                std::cout
-                    << "Matrix-vector OpenMP benchmark\n"
-                    << "Options:\n"
-                    << "  --repeats N        Number of repeats per configuration (default: 3)\n"
-                    << "  --output FILE      CSV output path (default: tables/matrix_vector_results.csv)\n";
-                return 0;
             } else {
                 throw std::runtime_error("Unknown argument: " + arg);
             }
@@ -110,9 +101,6 @@ int main(int argc, char** argv) {
 
         out << "matrix_size,threads,repeat,time_sec,checksum,speedup\n";
         out << std::fixed << std::setprecision(6);
-
-        std::cout << "WARNING: matrix 40000x40000 requires about 12.8 GiB only for A.\n";
-        std::cout << "Run on the target server with enough memory.\n";
 
         for (std::int64_t n : config.sizes) {
             for (int threads : config.threads) {
