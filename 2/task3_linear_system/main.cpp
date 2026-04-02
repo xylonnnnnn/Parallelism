@@ -1,6 +1,4 @@
-
 #include <omp.h>
-
 #include <cmath>
 #include <filesystem>
 #include <fstream>
@@ -39,15 +37,7 @@ static double residual_value(double sum_x, std::size_t n) {
     return std::abs(sum_x - static_cast<double>(n));
 }
 
-static double solve_variant(std::size_t n,
-                            double eps,
-                            int max_iters,
-                            int threads,
-                            Variant variant,
-                            omp_sched_t sched_kind,
-                            int chunk_size,
-                            int& iters_done,
-                            double& final_residual) {
+static double solve_variant(std::size_t n, double eps, int max_iters, int threads, Variant variant, omp_sched_t sched_kind, int chunk_size, int& iters_done, double& final_residual) {
     omp_set_num_threads(threads);
     omp_set_schedule(sched_kind, chunk_size);
 
@@ -171,17 +161,6 @@ int main(int argc, char** argv) {
                 cfg.variants_csv = argv[++i];
             } else if (arg == "--schedule-out" && i + 1 < argc) {
                 cfg.schedule_csv = argv[++i];
-            } else if (arg == "--help") {
-                std::cout
-                    << "Task 3: iterative SLAE solver benchmark\n"
-                    << "Options:\n"
-                    << "  --n N               Vector size (default: 10000000)\n"
-                    << "  --eps E             Stopping threshold (default: 1e-5)\n"
-                    << "  --max-iters K       Maximum iterations (default: 100000)\n"
-                    << "  --repeats R         Repeats per configuration (default: 3)\n"
-                    << "  --variants-out F    CSV for 2 variants (default: tables/variants_summary.csv)\n"
-                    << "  --schedule-out F    CSV for schedule study (default: tables/schedule_summary.csv)\n";
-                return 0;
             } else {
                 throw std::runtime_error("Unknown argument: " + arg);
             }
