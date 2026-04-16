@@ -4,8 +4,7 @@
 #include <vector>
 
 static double multiply_matrix_vector(std::int64_t n, int threads, double& checksum) {
-    const std::size_t matrix_elems =
-        static_cast<std::size_t>(n) * static_cast<std::size_t>(n);
+    const std::size_t matrix_elems = static_cast<std::size_t>(n) * static_cast<std::size_t>(n);
 
     std::vector<double> A(matrix_elems);
     std::vector<double> x(static_cast<std::size_t>(n));
