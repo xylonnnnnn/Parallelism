@@ -1,0 +1,4 @@
+/home/r.smagulov/tasks/Parallelism/3/build/CMakeFiles/task3_server.dir
+/home/r.smagulov/tasks/Parallelism/3/build/CMakeFiles/verify_results.dir
+/home/r.smagulov/tasks/Parallelism/3/build/CMakeFiles/edit_cache.dir
+/home/r.smagulov/tasks/Parallelism/3/build/CMakeFiles/rebuild_cache.dir
