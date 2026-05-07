@@ -101,10 +101,7 @@ std::pair<std::size_t, std::size_t> block_range(std::size_t total, unsigned thre
     return {begin, end};
 }
 
-void parallel_initialize(std::vector<double>& matrix,
-                         std::vector<double>& vector,
-                         unsigned thread_count,
-                         std::size_t n) {
+void parallel_initialize(std::vector<double>& matrix, std::vector<double>& vector, unsigned thread_count, std::size_t n) {
     std::vector<std::thread> workers;
     workers.reserve(thread_count);
 
@@ -117,8 +114,7 @@ void parallel_initialize(std::vector<double>& matrix,
 
                 const std::size_t row_offset = i * n;
                 for (std::size_t j = 0; j < n; ++j) {
-                    matrix[row_offset + j] = 0.5
-                        + static_cast<double>((i + j) % 131) * 0.0001;
+                    matrix[row_offset + j] = 0.5 + static_cast<double>((i + j) % 131) * 0.0001;
                 }
             }
         });
@@ -129,11 +125,7 @@ void parallel_initialize(std::vector<double>& matrix,
     }
 }
 
-void parallel_multiply(const std::vector<double>& matrix,
-                       const std::vector<double>& vector,
-                       std::vector<double>& result,
-                       unsigned thread_count,
-                       std::size_t n) {
+void parallel_multiply(const std::vector<double>& matrix, const std::vector<double>& vector, std::vector<double>& result, unsigned thread_count, std::size_t n) {
     std::vector<std::thread> workers;
     workers.reserve(thread_count);
 
@@ -196,16 +188,7 @@ std::vector<BenchmarkRow> benchmark_size(std::size_t n, const std::vector<unsign
             baseline_total = total_seconds;
         }
 
-        rows.push_back(BenchmarkRow{
-            n,
-            thread_count,
-            init_seconds,
-            multiply_seconds,
-            total_seconds,
-            baseline_multiply > 0.0 ? baseline_multiply / multiply_seconds : 0.0,
-            baseline_total > 0.0 ? baseline_total / total_seconds : 0.0,
-            result_checksum
-        });
+        rows.push_back(BenchmarkRow{n, thread_count, init_seconds, multiply_seconds, total_seconds, baseline_multiply > 0.0 ? baseline_multiply / multiply_seconds : 0.0, baseline_total > 0.0 ? baseline_total / total_seconds : 0.0, result_checksum});
 
         std::cout << "N=" << n
                   << ", threads=" << thread_count
@@ -235,10 +218,8 @@ void write_csv_row(std::ofstream& out, const BenchmarkRow& row) {
 }
 
 void print_memory_warning(std::size_t n) {
-    const long double matrix_gib = static_cast<long double>(n) * static_cast<long double>(n)
-        * sizeof(double) / 1024.0L / 1024.0L / 1024.0L;
-    const long double total_gib = matrix_gib
-        + static_cast<long double>(2 * n) * sizeof(double) / 1024.0L / 1024.0L / 1024.0L;
+    const long double matrix_gib = static_cast<long double>(n) * static_cast<long double>(n) * sizeof(double) / 1024.0L / 1024.0L / 1024.0L;
+    const long double total_gib = matrix_gib + static_cast<long double>(2 * n) * sizeof(double) / 1024.0L / 1024.0L / 1024.0L;
 
     std::cout << "Matrix " << n << "x" << n
               << " requires about " << std::fixed << std::setprecision(2)
