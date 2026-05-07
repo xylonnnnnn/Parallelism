@@ -34,11 +34,7 @@ void write_header(std::ofstream& out) {
 }
 
 void write_row(std::ofstream& out, const ResultRow& row) {
-    out << row.task_id << ','
-        << row.operation << ','
-        << std::setprecision(17) << row.x << ','
-        << std::setprecision(17) << row.y << ','
-        << std::setprecision(17) << row.result << '\n';
+    out << row.task_id << ',' << row.operation << ',' << std::setprecision(17) << row.x << ',' << std::setprecision(17) << row.y << ',' << std::setprecision(17) << row.result << '\n';
 }
 
 void client_sin(Server& server, int n) {
