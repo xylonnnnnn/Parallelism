@@ -12,9 +12,6 @@
 #include <utility>
 
 namespace lab {
-
-// Template server: one worker thread takes tasks from a queue, executes them,
-// and stores results in an unordered_map by task id.
 template <class T>
 class TaskServer {
 public:
@@ -54,7 +51,6 @@ public:
         running_ = false;
     }
 
-    // Adds a task to the queue and returns its unique id.
     size_t add_task(task_type task) {
         if (!task) {
             throw std::invalid_argument("empty task");
@@ -71,8 +67,6 @@ public:
         return id;
     }
 
-    // Blocking request. The result is removed from the container after reading,
-    // so the container does not grow forever.
     T request_result(size_t id_res) {
         std::unique_lock<std::mutex> lock(mutex_);
         result_cv_.wait(lock, [this, id_res] {
@@ -89,7 +83,6 @@ public:
         return value;
     }
 
-    // Non-blocking variant: useful for tests/benchmarks.
     std::optional<T> try_request_result(size_t id_res) {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = results_.find(id_res);
@@ -147,4 +140,4 @@ private:
     bool stop_requested_ = false;
 };
 
-} // namespace lab
+} 
