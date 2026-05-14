@@ -12,9 +12,3 @@ cmake --build build -j
 ```bash
 ./build/matrix_vector_benchmark
 ```
-
-## Построение графика
-
-```bash
-python3 scripts/plot_speedup.py results/task1_matrix_vector.csv results/speedup.png
-```
