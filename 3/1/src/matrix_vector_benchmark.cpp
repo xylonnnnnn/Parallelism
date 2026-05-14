@@ -7,7 +7,6 @@
 #include <iomanip>
 #include <iostream>
 #include <numeric>
-#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <thread>
@@ -33,67 +32,6 @@ struct BenchmarkRow {
     double total_speedup{};
     double checksum{};
 };
-
-std::vector<std::string> split(const std::string& text, char delimiter) {
-    std::vector<std::string> parts;
-    std::stringstream ss(text);
-    std::string item;
-    while (std::getline(ss, item, delimiter)) {
-        if (!item.empty()) {
-            parts.push_back(item);
-        }
-    }
-    return parts;
-}
-
-std::vector<std::size_t> parse_sizes(const std::string& text) {
-    std::vector<std::size_t> values;
-    for (const auto& part : split(text, ',')) {
-        values.push_back(static_cast<std::size_t>(std::stoull(part)));
-    }
-    if (values.empty()) {
-        throw std::invalid_argument("empty size list");
-    }
-    return values;
-}
-
-std::vector<unsigned> parse_threads(const std::string& text) {
-    std::vector<unsigned> values;
-    for (const auto& part : split(text, ',')) {
-        const unsigned value = static_cast<unsigned>(std::stoul(part));
-        if (value == 0) {
-            throw std::invalid_argument("thread count must be positive");
-        }
-        values.push_back(value);
-    }
-    if (values.empty()) {
-        throw std::invalid_argument("empty thread list");
-    }
-    return values;
-}
-
-BenchmarkConfig parse_arguments(int argc, char** argv) {
-    BenchmarkConfig config;
-    for (int i = 1; i < argc; ++i) {
-        const std::string arg = argv[i];
-        if (arg == "--sizes" && i + 1 < argc) {
-            config.sizes = parse_sizes(argv[++i]);
-        } else if (arg == "--threads" && i + 1 < argc) {
-            config.thread_counts = parse_threads(argv[++i]);
-        } else if (arg == "--output" && i + 1 < argc) {
-            config.output_csv = argv[++i];
-        } else if (arg == "--help") {
-            std::cout << "Usage:\n"
-                      << "  ./matrix_vector_benchmark [--sizes 20000,40000] "
-                      << "[--threads 1,2,4,7,8,16,20,40] "
-                      << "[--output results/task1_matrix_vector.csv]\n";
-            std::exit(0);
-        } else {
-            throw std::invalid_argument("unknown or incomplete argument: " + arg);
-        }
-    }
-    return config;
-}
 
 std::pair<std::size_t, std::size_t> block_range(std::size_t total, unsigned thread_index, unsigned thread_count) {
     const std::size_t begin = total * thread_index / thread_count;
@@ -227,9 +165,9 @@ void print_memory_warning(std::size_t n) {
               << total_gib << " GiB with vectors.\n";
 }
 
-int main(int argc, char** argv) {
+int main() {
     try {
-        const BenchmarkConfig config = parse_arguments(argc, argv);
+        const BenchmarkConfig config;
 
         fs::create_directories(config.output_csv.parent_path());
         std::ofstream out(config.output_csv);

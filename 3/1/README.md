@@ -10,10 +10,7 @@ cmake --build build -j
 ## Запуск
 
 ```bash
-./build/matrix_vector_benchmark \
-  --sizes 20000,40000 \
-  --threads 1,2,4,7,8,16,20,40 \
-  --output results/task1_matrix_vector.csv
+./build/matrix_vector_benchmark
 ```
 
 ## Построение графика
