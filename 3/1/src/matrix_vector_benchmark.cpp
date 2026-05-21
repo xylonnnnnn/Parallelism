@@ -155,16 +155,6 @@ void write_csv_row(std::ofstream& out, const BenchmarkRow& row) {
         << std::setprecision(17) << row.checksum << '\n';
 }
 
-void print_memory_warning(std::size_t n) {
-    const long double matrix_gib = static_cast<long double>(n) * static_cast<long double>(n) * sizeof(double) / 1024.0L / 1024.0L / 1024.0L;
-    const long double total_gib = matrix_gib + static_cast<long double>(2 * n) * sizeof(double) / 1024.0L / 1024.0L / 1024.0L;
-
-    std::cout << "Matrix " << n << "x" << n
-              << " requires about " << std::fixed << std::setprecision(2)
-              << matrix_gib << " GiB for the matrix, total about "
-              << total_gib << " GiB with vectors.\n";
-}
-
 int main() {
     try {
         const BenchmarkConfig config;
@@ -177,7 +167,6 @@ int main() {
         write_csv_header(out);
 
         for (std::size_t n : config.sizes) {
-            print_memory_warning(n);
             const auto rows = benchmark_size(n, config.thread_counts);
             for (const BenchmarkRow& row : rows) {
                 write_csv_row(out, row);
