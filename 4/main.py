@@ -42,11 +42,10 @@ def sensor_worker(sensor, output_queue: queue.Queue, stop_flag: threading.Event)
 
 def read_latest(source_queue: queue.Queue, old_value: Optional[Any]) -> Optional[Any]:
     value = old_value
-    while True:
-        try:
-            value = source_queue.get_nowait()
-        except queue.Empty:
-            return value
+    try:
+        value = source_queue.get_nowait()
+    except queue.Empty:
+        return value
 
 
 def draw_values(frame, values: List[Optional[int]]):
