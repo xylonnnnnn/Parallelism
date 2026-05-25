@@ -27,19 +27,19 @@ python main.py
 Запуск с указанием камеры, разрешения и частоты отображения:
 
 ```bash
-python main.py --camera 0 --resolution 640x480 --fps 30
+python main.py --camera 0 --resolution 640 480 --fps 30
 ```
 
 Для Linux можно указать имя устройства камеры:
 
 ```bash
-python main.py --camera /dev/video0 --resolution 1280x720 --fps 30
+python main.py --camera /dev/video0 --resolution 1280 720 --fps 30
 ```
 
 ## Аргументы
 
 - `--camera` — индекс или имя камеры. Примеры: `0`, `1`, `/dev/video0`.
-- `--resolution` — желаемое разрешение в формате `WIDTHxHEIGHT`, например `640x480`.
+- `--resolution` — желаемое разрешение в формате `WIDTH HEIGHT`, например `640 480`.
 - `--fps` — частота обновления окна.
 
 ## Завершение программы

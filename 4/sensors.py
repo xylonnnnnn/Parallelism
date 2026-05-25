@@ -51,7 +51,7 @@ class SensorCam(Sensor):
 
 
 class WindowImage:
-    def __init__(self, fps: float, title: str = "Task 4"):
+    def __init__(self, fps: float, title: str = "Webcam"):
         if fps <= 0:
             raise ValueError("FPS must be positive")
 

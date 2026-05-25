@@ -4,7 +4,7 @@ import queue
 import signal
 import threading
 from pathlib import Path
-from typing import Any, List, Optional, Tuple
+from typing import Any, List, Optional
 import cv2
 import numpy as np
 from sensors import SensorCam, SensorX, WindowImage
@@ -19,20 +19,6 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(threadName)s | %(message)s",
 )
-
-
-def parse_resolution(text: str) -> Tuple[int, int]:
-    try:
-        width_text, height_text = text.lower().split("x", 1)
-        width = int(width_text)
-        height = int(height_text)
-    except ValueError as exc:
-        raise argparse.ArgumentTypeError("Resolution must look like 640x480") from exc
-
-    if width <= 0 or height <= 0:
-        raise argparse.ArgumentTypeError("Resolution values must be positive")
-
-    return width, height
 
 
 def save_latest(target_queue: queue.Queue, value: Any) -> None:
@@ -93,35 +79,28 @@ def draw_values(frame, values: List[Optional[int]]):
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Task 4: threaded sensors and camera")
     parser.add_argument("--camera", default="0", help="camera name/index, for example 0 or /dev/video0")
-    parser.add_argument("--resolution", type=parse_resolution, default=parse_resolution("640x480"), help="camera resolution, for example 1280x720")
+    parser.add_argument("--resolution", type=int, nargs=2, default=(640, 480), metavar=("WIDTH", "HEIGHT"), help="camera resolution, for example 1280 720")
     parser.add_argument("--fps", type=float, default=30.0, help="image display frequency")
     return parser
 
 
 def main() -> int:
-    args = build_parser().parse_args()
+    parser = build_parser()
+    args = parser.parse_args()
+
+    if args.resolution[0] <= 0 or args.resolution[1] <= 0:
+        parser.error("resolution values must be positive")
 
     stop_flag = threading.Event()
     signal.signal(signal.SIGINT, lambda *_: stop_flag.set())
     signal.signal(signal.SIGTERM, lambda *_: stop_flag.set())
 
-    sensors = [
-        SensorCam(args.camera, args.resolution),
-        SensorX(0.01),
-        SensorX(0.1),
-        SensorX(1),
-    ]
-
+    sensors = [SensorCam(args.camera, args.resolution), SensorX(0.01), SensorX(0.1), SensorX(1)]
     queues = [queue.Queue(maxsize=1) for _ in sensors]
     threads = []
 
     for index, sensor in enumerate(sensors):
-        thread = threading.Thread(
-            target=sensor_worker,
-            args=(sensor, queues[index], stop_flag),
-            name=f"sensor-worker-{index}",
-            daemon=True,
-        )
+        thread = threading.Thread(target=sensor_worker, args=(sensor, queues[index], stop_flag), name=f"sensor-worker-{index}", daemon=True)
         threads.append(thread)
         thread.start()
 
