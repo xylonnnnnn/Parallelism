@@ -1,4 +1,4 @@
-# Лабораторная работа Task 5: YOLOv8s-pose на CPU
+# Task 5: YOLOv8s-pose на CPU
 
 ## Что делает программа
 
@@ -115,23 +115,3 @@ python main.py --camera --camera-source 0 --threads 4
 ```bash
 python main.py --camera --camera-source 0 --threads 4 --record camera_output.mp4
 ```
-
-## Основные параметры
-
-| Параметр | Назначение |
-|---|---|
-| `--video` | путь к входному видео |
-| `--mode single` | однопоточная обработка |
-| `--mode multi` | многопоточная обработка |
-| `--output` | путь к выходному видео |
-| `--threads` | количество worker-потоков |
-| `--benchmark` | запуск теста с разным количеством потоков |
-| `--benchmark-threads` | список потоков для benchmark |
-| `--benchmark-dir` | папка для результатов benchmark |
-| `--camera` | обработка видеопотока с камеры |
-| `--camera-source` | индекс или строка источника камеры |
-| `--record` | запись обработанного потока камеры в файл |
-| `--queue-size` | размер очередей pipeline |
-| `--imgsz` | размер изображения для YOLO predict |
-| `--width` и `--height` | размер кадра для обработки и записи |
-| `--torch-threads` | ручное количество CPU-потоков PyTorch на worker |
