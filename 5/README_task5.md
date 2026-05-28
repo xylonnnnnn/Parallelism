@@ -17,8 +17,6 @@
 
 Также есть режим `--benchmark`, который запускает обработку с разным количеством потоков и помогает подобрать оптимальное число worker-потоков для конкретного CPU.
 
-Дополнительно реализован режим камеры `--camera`, который показывает keypoints в реальном времени.
-
 ## Установка
 
 Рекомендуется использовать виртуальное окружение.
@@ -100,18 +98,4 @@ os.cpu_count() // workers
 
 ```bash
 python main.py --video input.mp4 --mode multi --threads 4 --torch-threads 1 --output output.mp4
-```
-
-## Режим камеры
-
-```bash
-python main.py --camera --camera-source 0 --threads 4
-```
-
-Выход из окна камеры — клавиша `q`.
-
-Чтобы дополнительно записывать обработанный видеопоток:
-
-```bash
-python main.py --camera --camera-source 0 --threads 4 --record camera_output.mp4
 ```
