@@ -1,1 +1,0 @@
-/opt/nvidia/hpc_sdk/Linux_x86_64/23.11/compilers/bin/nvc++ -fast -O3 -DNDEBUG -acc CMakeFiles/lab6_heat.dir/main.cpp.o -o lab6_heat  /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.74.0 
