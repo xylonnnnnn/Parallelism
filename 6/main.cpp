@@ -19,7 +19,9 @@ struct Args {
     bool print = false;
 };
 
-inline int pos(int i, int j, int n) { return i * n + j; }
+inline int pos(int i, int j, int n) { 
+    return i * n + j; 
+}
 
 Args parse(int argc, char** argv) {
     Args a;
@@ -34,8 +36,13 @@ Args parse(int argc, char** argv) {
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, d), vm);
     po::notify(vm);
-    if (vm.count("help")) { std::cout << d << '\n'; std::exit(0); }
-    if (a.n < 2 || a.eps <= 0 || a.max_iter < 1) throw std::runtime_error("bad arguments");
+    if (vm.count("help")) { 
+        std::cout << d << '\n'; 
+        std::exit(0); 
+    }
+    if (a.n < 2 || a.eps <= 0 || a.max_iter < 1) {
+        throw std::runtime_error("bad arguments");
+    }
     return a;
 }
 
@@ -61,7 +68,7 @@ std::pair<int, double> solve(Matrix& u, Matrix& v, int n, double eps, int max_it
     for (iter = 1; iter <= max_iter; ++iter) {
         err = 0.0;
 #pragma acc parallel loop collapse(2) reduction(max:err) independent
-        for (int i = 1; i < n - 1; ++i)
+        for (int i = 1; i < n - 1; ++i) {
             for (int j = 1; j < n - 1; ++j) {
                 int k = pos(i, j, n);
                 double nv = 0.25 * (a[pos(i - 1, j, n)] + a[pos(i + 1, j, n)] +
@@ -69,10 +76,16 @@ std::pair<int, double> solve(Matrix& u, Matrix& v, int n, double eps, int max_it
                 err = std::max(err, std::abs(nv - a[k]));
                 b[k] = nv;
             }
+        }
 #pragma acc parallel loop collapse(2) independent
-        for (int i = 1; i < n - 1; ++i)
-            for (int j = 1; j < n - 1; ++j) a[pos(i, j, n)] = b[pos(i, j, n)];
-        if (err <= eps) break;
+        for (int i = 1; i < n - 1; ++i) {
+            for (int j = 1; j < n - 1; ++j) {
+                a[pos(i, j, n)] = b[pos(i, j, n)];
+            }
+        }
+        if (err <= eps) {
+            break;
+        }
     }
 #pragma acc update self(a[0:total])
     }
@@ -83,14 +96,18 @@ void save(const Matrix& u, int n, const std::string& file) {
     std::ofstream out(file);
     out << std::setprecision(12);
     for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) out << std::setw(16) << u[pos(i, j, n)] << (j + 1 == n ? '\n' : ' ');
+        for (int j = 0; j < n; ++j) {
+            out << std::setw(16) << u[pos(i, j, n)] << (j + 1 == n ? '\n' : ' ');
+        }
     }
 }
 
 void print(const Matrix& u, int n) {
     std::cout << std::fixed << std::setprecision(6);
     for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) std::cout << std::setw(11) << u[pos(i, j, n)];
+        for (int j = 0; j < n; ++j) {
+            std::cout << std::setw(11) << u[pos(i, j, n)];
+        }
         std::cout << '\n';
     }
 }
@@ -105,10 +122,10 @@ int main(int argc, char** argv) {
         auto [iters, err] = solve(u, v, args.n, args.eps, args.max_iter);
         double sec = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count();
         save(u, args.n, args.output);
-        std::cout << "size=" << args.n << "x" << args.n << "\niterations=" << iters
-                  << "\nerror=" << std::scientific << err << "\ntime_sec=" << sec
-                  << "\noutput=" << args.output << '\n';
-        if (args.print) print(u, args.n);
+        std::cout << "size=" << args.n << "x" << args.n << "\niterations=" << iters << "\nerror=" << std::scientific << err << "\ntime_sec=" << sec << "\noutput=" << args.output << '\n';
+        if (args.print) {
+            print(u, args.n);
+        }
     } catch (const std::exception& e) {
         std::cerr << "error: " << e.what() << '\n';
         return 1;
