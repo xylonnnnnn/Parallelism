@@ -97,11 +97,6 @@ class RunStats:
         return self.elapsed * 1000.0 / self.frames if self.frames > 0 else 0.0
 
 
-def parse_source(value: str) -> int | str:
-    text = value.strip()
-    return int(text) if text.isdigit() else text
-
-
 def frame_to_size(frame: np.ndarray, size: tuple[int, int]) -> np.ndarray:
     h, w = frame.shape[:2]
     if (w, h) == size:
@@ -286,72 +281,6 @@ def benchmark(video_path: Path, output_dir: Path, thread_counts: list[int], imag
     print(f"Лучший режим: {best.mode}, workers={best.workers}, elapsed={best.elapsed:.4f}s")
 
 
-def camera_realtime(source: str, workers: int, image_size: int, size: tuple[int, int], queue_size: int, torch_threads: int, record: Path | None) -> None:
-    in_q: queue.Queue = queue.Queue(maxsize=max(1, queue_size))
-    out_q: queue.Queue = queue.Queue(maxsize=max(1, queue_size * workers))
-    ready_q: queue.Queue = queue.Queue()
-    stop = threading.Event()
-    threads = [threading.Thread(target=worker_loop, args=(in_q, out_q, ready_q, stop, workers, image_size, torch_threads), daemon=True) for _ in range(workers)]
-    for thread in threads:
-        thread.start()
-    for _ in threads:
-        ok, message = ready_q.get()
-        if not ok:
-            stop.set()
-            raise RuntimeError(message)
-    with VideoCaptureResource(parse_source(source)) as cap:
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, size[0])
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, size[1])
-        fps = cap.get(cv2.CAP_PROP_FPS)
-        if fps <= 0:
-            fps = 25.0
-        writer = VideoWriterResource(record, fps, size) if record is not None else None
-        window = "YOLOv8s-pose CPU"
-        cv2.namedWindow(window, cv2.WINDOW_NORMAL)
-        next_capture = 0
-        next_show = 0
-        pending: dict[int, np.ndarray] = {}
-        shown = 0
-        started = time.perf_counter()
-        try:
-            while not stop.is_set():
-                ok, frame = cap.read()
-                if ok:
-                    try:
-                        in_q.put_nowait((next_capture, frame_to_size(frame, size)))
-                        next_capture += 1
-                    except queue.Full:
-                        pass
-                try:
-                    while True:
-                        idx, processed = out_q.get_nowait()
-                        pending[idx] = processed
-                except queue.Empty:
-                    pass
-                if next_show in pending:
-                    frame = pending.pop(next_show)
-                    next_show += 1
-                    shown += 1
-                    if writer is not None:
-                        writer.write(frame)
-                    cv2.imshow(window, frame)
-                key = cv2.waitKey(1) & 255
-                if key == ord("q"):
-                    stop.set()
-        finally:
-            if writer is not None:
-                writer.close()
-            cv2.destroyAllWindows()
-            for _ in threads:
-                in_q.put(None)
-            for thread in threads:
-                thread.join(timeout=10)
-        elapsed = time.perf_counter() - started
-        print(f"Показано кадров: {shown}")
-        print(f"Время: {elapsed:.4f} s")
-        print(f"FPS: {shown / elapsed if elapsed > 0 else 0.0:.2f}")
-
-
 def parse_thread_list(value: str) -> list[int]:
     result = []
     for part in value.split(","):
@@ -372,9 +301,6 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--benchmark", action="store_true")
     parser.add_argument("--benchmark-threads", default="1,2,3,4,6,8")
     parser.add_argument("--benchmark-dir", type=Path, default=Path("benchmark_out"))
-    parser.add_argument("--camera", action="store_true")
-    parser.add_argument("--camera-source", default="0")
-    parser.add_argument("--record", type=Path)
     parser.add_argument("--queue-size", type=int, default=16)
     parser.add_argument("--imgsz", type=int, default=640)
     parser.add_argument("--width", type=int, default=WIDTH)
@@ -397,13 +323,8 @@ def print_stats(stats: RunStats, torch_threads: int, output: Path) -> None:
 def main() -> int:
     args = build_parser().parse_args()
     size = (max(1, args.width), max(1, args.height))
-    if args.camera:
-        workers = max(1, args.threads)
-        torch_threads = torch_threads_for(workers, args.torch_threads)
-        camera_realtime(args.camera_source, workers, args.imgsz, size, args.queue_size, torch_threads, args.record)
-        return 0
     if args.video is None:
-        raise SystemExit("Укажите --video или используйте --camera")
+        raise SystemExit("Укажите --video")
     if args.benchmark:
         thread_counts = parse_thread_list(args.benchmark_threads)
         if not thread_counts:
