@@ -71,8 +71,7 @@ std::pair<int, double> solve(Matrix& u, Matrix& v, int n, double eps, int max_it
         for (int i = 1; i < n - 1; ++i) {
             for (int j = 1; j < n - 1; ++j) {
                 int k = pos(i, j, n);
-                double nv = 0.25 * (a[pos(i - 1, j, n)] + a[pos(i + 1, j, n)] +
-                                    a[pos(i, j - 1, n)] + a[pos(i, j + 1, n)]);
+                double nv = 0.25 * (a[pos(i - 1, j, n)] + a[pos(i + 1, j, n)] + a[pos(i, j - 1, n)] + a[pos(i, j + 1, n)]);
                 err = std::max(err, std::abs(nv - a[k]));
                 b[k] = nv;
             }
