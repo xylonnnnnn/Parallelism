@@ -86,8 +86,6 @@ std::pair<int, double> solve(Matrix& u, Matrix& v, int n, double eps, int max_it
             break;
         }
     }
-#pragma acc update self(a[0:total])
-    }
     return {std::min(iter, max_iter), err};
 }
 
